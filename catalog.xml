@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/SoapWebService/SoapWebService?wsdl" uri="src/conf/xml-resources/web-service-references/SoapWebService/wsdl/localhost_8080/SoapWebService/SoapWebService.wsdl"/>
+    <system systemId="http://localhost:8080/SoapWebService/SoapWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/SoapWebService/wsdl/localhost_8080/SoapWebService/SoapWebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/DataWebWizard/SoapService?wsdl" uri="src/conf/xml-resources/web-service-references/SoapService/wsdl/localhost_8080/DataWebWizard/SoapService.wsdl"/>
+    <system systemId="http://localhost:8080/DataWebWizard/SoapService?xsd=1" uri="src/conf/xml-resources/web-service-references/SoapService/wsdl/localhost_8080/DataWebWizard/SoapService.xsd_1.xsd"/>
+</catalog>

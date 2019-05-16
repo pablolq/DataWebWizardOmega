@@ -16,12 +16,28 @@
         
         if(session.getAttribute("valid-session")==null || session.getAttribute("valid-session").equals(""))
             response.sendRedirect("index.html");
-        
+        String username = session.getAttribute("user").toString();
     %>
     <body>
-        <h1>Hello World!</h1>
-        
+        <h1>Welcome to the all mighty data wizard's lair/h1>
+            <form>
+                
+                <select name="tablenames">
+                    <option></option>                    
+                </select>
+                
+                <input type="hidden" id="user" name="user" value="<%= username%>"> 
+                <button onclick=''>
+            </form>
+            
+            <div id ='table'>
+                
+            </div>
+            
         <br>
         <a href="LogoutServlet"> Log out </a>
+        
+        
+        
     </body>
 </html>
