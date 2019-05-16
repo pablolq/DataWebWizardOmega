@@ -175,6 +175,27 @@ public class DBQueryHandler {
         return result;
     }
     
+    public static Map<String, String> getTableColumnData(String tableName){
+        Map<String, String> columnDictionary = new HashMap<>();
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/" + DB_NAME + ";create=true;",
+                    "root", "root");
+            
+            columnDictionary = getColumTypeDictionary(con, tableName);
+            
+            con.close();
+            
+        } catch (SQLException ex) {
+            System.out.println("Failed");
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DBSetup.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return columnDictionary;
+    }
+    
     private static Map<String, String> getColumTypeDictionary(Connection con, String tableName) throws SQLException{
         Map<String, String> columnDictionary = new HashMap<>();
         DatabaseMetaData meta = con.getMetaData();
@@ -187,7 +208,36 @@ public class DBQueryHandler {
         
         return columnDictionary;
     }
-    
+    /*
+    public static List<Map<String,String>> selectAllFromTable(String tableName) {
+        Set<String> columnSet = new HashSet<>();
+        List<Map<String,String>> 
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/" + DB_NAME + ";create=true;",
+                    "root", "root");
+            DatabaseMetaData meta = con.getMetaData();
+            ResultSet res = meta.getColumns(null, null, tableName.toUpperCase(), null);
+            //System.out.println("Listing columns of: " + tableName );
+            while (res.next()) {
+                columnSet.add(res.getString("COLUMN_NAME"));
+            }
+            Statement query = con.createStatement();
+            
+            ResultSet rs = query.executeQuery("SELECT * FROM " + tableName.toUpperCase());
+            while (rs.next()) {
+                for(String col : columnSet)
+                    System.out.println("Id: " + rs.getString(col));
+                //System.out.println("Name: " + rs.getString("name"));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed");
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DBQueryHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    */
     public static void selectAll(String tableName) {
         Set<String> columnSet = new HashSet<>();
         try {
@@ -342,24 +392,25 @@ public class DBQueryHandler {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBQueryHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }/*/
 
     public static List<String> getAllTables(String user) {
         List<String> tableNames = new LinkedList<>();
-        
+        String table;
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/" + DB_NAME, "root", "root");
             DatabaseMetaData meta = con.getMetaData();
 
             ResultSet res = meta.getTables(null, null, null, new String[]{"TABLE"});
-            System.out.println("List of tables: ");
-            while (res.next()) {
-                System.out.println(res.getString("TABLE_NAME"));
-                if(res.getString("TABLE_NAME").startsWith(user))
+            System.out.println("List of tables of user " + user + ": ");
+            while (res.next()) {                
+                if(res.getString("TABLE_NAME").startsWith(user.toUpperCase())){
                     tableNames.add(res.getString("TABLE_NAME"));
+                    System.out.println(res.getString("TABLE_NAME"));
+                }                    
             }
+            System.out.println("No. of Tables" + tableNames.size());
             res.close();
             con.close();
         } catch (SQLException ex) {

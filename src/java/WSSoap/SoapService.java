@@ -6,6 +6,7 @@
 package WSSoap;
 
 import java.util.List;
+import java.util.Map;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -35,5 +36,23 @@ public class SoapService {
         List<String> lista= DBQueryHandler.getAllTables(username);        
         String[] tablas = lista.stream().toArray(String[]::new);
         return tablas;
+    }
+    
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getTableData")
+    public String[] getTableData(@WebParam(name = "tableName") String tableName) {
+        
+        Map<String,String> columnData = DBQueryHandler.getTableColumnData(tableName);
+        
+        String columnDataArrray[] = new String[columnData.size() * 2];
+        int i = 0;
+        
+         for (Map.Entry<String, String> f : columnData.entrySet()) {
+            columnDataArrray[i++] = f.getKey();
+            columnDataArrray[i++] = f.getValue();
+        }
+        return columnDataArrray;
     }
 }

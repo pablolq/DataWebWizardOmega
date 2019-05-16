@@ -4,6 +4,10 @@
 
 <xs:element name="getAllTablesFromUserResponse" type="tns:getAllTablesFromUserResponse"/>
 
+<xs:element name="getTableData" type="tns:getTableData"/>
+
+<xs:element name="getTableDataResponse" type="tns:getTableDataResponse"/>
+
 <xs:element name="hello" type="tns:hello"/>
 
 <xs:element name="helloResponse" type="tns:helloResponse"/>
@@ -17,6 +21,18 @@
 <xs:complexType name="helloResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTableData">
+<xs:sequence>
+<xs:element name="tableName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTableDataResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

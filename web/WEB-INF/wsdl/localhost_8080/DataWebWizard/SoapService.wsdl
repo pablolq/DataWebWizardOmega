@@ -10,6 +10,12 @@
 <message name="getAllTablesFromUserResponse">
 <part name="parameters" element="tns:getAllTablesFromUserResponse"/>
 </message>
+<message name="getTableData">
+<part name="parameters" element="tns:getTableData"/>
+</message>
+<message name="getTableDataResponse">
+<part name="parameters" element="tns:getTableDataResponse"/>
+</message>
 <message name="hello">
 <part name="parameters" element="tns:hello"/>
 </message>
@@ -21,6 +27,10 @@
 <input wsam:Action="http://WSSoap/SoapService/getAllTablesFromUserRequest" message="tns:getAllTablesFromUser"/>
 <output wsam:Action="http://WSSoap/SoapService/getAllTablesFromUserResponse" message="tns:getAllTablesFromUserResponse"/>
 </operation>
+<operation name="getTableData">
+<input wsam:Action="http://WSSoap/SoapService/getTableDataRequest" message="tns:getTableData"/>
+<output wsam:Action="http://WSSoap/SoapService/getTableDataResponse" message="tns:getTableDataResponse"/>
+</operation>
 <operation name="hello">
 <input wsam:Action="http://WSSoap/SoapService/helloRequest" message="tns:hello"/>
 <output wsam:Action="http://WSSoap/SoapService/helloResponse" message="tns:helloResponse"/>
@@ -29,6 +39,15 @@
 <binding name="SoapServicePortBinding" type="tns:SoapService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
 <operation name="getAllTablesFromUser">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getTableData">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
