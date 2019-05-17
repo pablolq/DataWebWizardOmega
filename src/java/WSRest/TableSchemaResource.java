@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
@@ -63,10 +64,19 @@ public class TableSchemaResource {
     @Consumes(MediaType.APPLICATION_XML)
     public void putXml(String content) {
     }
+    
+    @DELETE
+    @Consumes(MediaType.APPLICATION_XML)
+    public void deleteXml(@QueryParam("table") String table) {
+        
+    }
 
     private static java.util.List<java.lang.String> getTableData(java.lang.String tableName) {
         WSClient.SoapService_Service service = new WSClient.SoapService_Service();
         WSClient.SoapService port = service.getSoapServicePort();
         return port.getTableData(tableName);
     }
+    
+    
+    
 }
