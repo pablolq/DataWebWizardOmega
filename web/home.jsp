@@ -76,7 +76,7 @@
                     ajaxRequest.onreadystatechange = function () {
                         if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
                             xmlDoc = ajaxRequest.responseXML;
-                            txt = "<table>";
+                            txt = "<table><th>Campo</th><th>Tipo de dato</th>";
                             xnombres = xmlDoc.getElementsByTagName("nombre");
                             xtipos = xmlDoc.getElementsByTagName("tipo");
                             for (i = 0; i < x.length; i++) {
