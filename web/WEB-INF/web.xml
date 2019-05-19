@@ -16,6 +16,10 @@
         <servlet-name>FieldServlet</servlet-name>
         <servlet-class>servlets.FieldServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DataExtractor</servlet-name>
+        <servlet-class>servlets.DataExtractor</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>FieldServlet</servlet-name>
         <url-pattern>/FieldServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DataExtractor</servlet-name>
+        <url-pattern>/DataExtractor</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

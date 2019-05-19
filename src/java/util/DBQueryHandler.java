@@ -238,6 +238,39 @@ public class DBQueryHandler {
         }
     }
     */
+    public static String selectAllString(String tableName) {
+        Set<String> columnSet = new HashSet<>();
+        StringBuilder sb = new StringBuilder();
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/" + DB_NAME + ";create=true;",
+                    "root", "root");
+            DatabaseMetaData meta = con.getMetaData();
+            ResultSet res = meta.getColumns(null, null, tableName.toUpperCase(), null);
+
+            //System.out.println("Listing columns of: " + tableName );
+            while (res.next()) {
+                columnSet.add(res.getString("COLUMN_NAME"));
+            }
+            Statement query = con.createStatement();
+            
+            ResultSet rs = query.executeQuery("SELECT * FROM " + tableName.toUpperCase());
+
+            while (rs.next()) {
+                for(String col : columnSet){
+                    sb.append(col + " : " + rs.getString(col));
+                }
+                //System.out.println("Name: " + rs.getString("name"));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Failed");
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DBQueryHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sb.toString();
+    }
+    
     public static void selectAll(String tableName) {
         Set<String> columnSet = new HashSet<>();
         try {

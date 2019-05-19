@@ -7,16 +7,28 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import util.DBQueryHandler;
 
 /**
  *
  * @author Pablo
  */
-public class FieldServlet extends HttpServlet {
+public class DataExtractor extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,32 +42,39 @@ public class FieldServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int numFields;
+        System.out.println("Entrando al extractor");
         try (PrintWriter out = response.getWriter()) {
-            if(request.getParameter("numFields")==null){
-                numFields = 20;
-            }else{
-                String num = request.getParameter("numFields");
-                System.out.println(num);
-                numFields = Integer.parseInt(num);
-            }
+            response.setContentType("text/html;charset=UTF-8");
             
-
-            String res = "";
-            System.out.println(numFields);
-            for (int i = 0; i < numFields; i++) {
-                res = res + "Field Name: <input id='fieldName" + i + "' type='text' value=''/>\n"
-                        + "        <select id='ddlType" + i + "'>\n"
-                        + "            <option>varchar</option>\n"
-                        + "            <option>int</option>\n"
-                        + "            <option>double</option>\n"
-                        + "        </select>  \n"
-                        + "        Primary Key <input id='PK" + i + "' type='radio' value='' />\n"
-                        + "        Longitud: <input id='length" + i + "' type='text' value='' />\n"
-                        + "        <br>";
+            //RequestDispatcher dispatcher = request.getRequestDispatcher("/scroll.jsp");
+            String nombreTabla = request.getParameter("tabla");
+            
+            out.println(DBQueryHandler.selectAllString(nombreTabla));          
+            
+        }        
+    }
+    
+    private Object[][] ResultSetToArray(ResultSet rs) {
+        Object data[][] = null;
+        try {
+            rs.last();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            int numRows = rs.getRow();
+            data = new Object[numRows][numCols];
+            int j = 0;
+            rs.beforeFirst();
+            while (rs.next()) {
+                for (int i = 0; i < numCols; i++) {
+                    data[j][i] = rs.getObject(i + 1);
+                }
+                j++;
             }
-            out.println(res);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return data;
+    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
-import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
@@ -56,6 +56,33 @@ public class TableSchemaResource {
         return sb.toString();
     }
 
+    /**
+     * Retrieves representation of an instance of WSRest.TableSchemaResource
+     * @return an instance of java.lang.String
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public String postXml(@QueryParam("table") String table) {
+        System.out.println("POST SCHEMA");
+        List<String> columns = getTableData(table);
+        StringBuilder sb = new StringBuilder("{ \"columnas\" : [");
+        int i = 0;
+        while(i<columns.size()){
+            sb.append("{\"nombre\":\"");
+            sb.append(columns.get(i++));
+            sb.append("\",\"tipo\":\"");
+            sb.append(columns.get(i++));
+            if(i!=columns.size()){
+                sb.append("\"},");
+            }else{
+                sb.append("\"}");
+            }
+        }
+        
+        sb.append("]}");
+        System.out.println(sb.toString());
+        return sb.toString();
+    }
     /**
      * PUT method for updating or creating an instance of TableSchemaResource
      * @param content representation for the resource
